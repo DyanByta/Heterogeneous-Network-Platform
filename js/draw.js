@@ -7,10 +7,11 @@ var w = svg_container.width() - 40;     //svg宽
 var h = svg_container.height() - 40;    //svg高
 var x_par = 100;    //坐标初始位置_x
 var y_par = 100;    //坐标初始位置_y
+var x_zigbee = 400;    //zigbee解调器位置_x
+var y_zigbee = 300;    //zigbee解调器位置_y
 
 var dataset = [
-    [5, 20, "设备1", 0], [480, 90, "设备2", 0],
-    [85, 21, "终端", 0]
+    [5, 20, "设备1", 0], [480, 90, "设备2", 0]
 ];      //连接状态矩阵[x, y, name, state]
 
 var topo_data = [
@@ -34,34 +35,41 @@ $(document).ready(function () {
 });
 
 //创建SVG
-var svg = d3.select("#draw")
-    .append("svg")
+var svg = d3.select("#draw svg")
     .attr("width", w)
     .attr("height", h);
 
 function draw_svg(dataset){
     let data_size = dataset.length;
-    //绘制方块，并设置响应
-    svg.selectAll("rect").remove();
-    svg.selectAll("rect")
-        .data(dataset)
+    //绘制圆点，并设置响应
+    svg.selectAll("circle").remove();
+    svg.selectAll("circle")
+        .data(dataset.slice(0, data_size - 1))
         .enter()
-        .append("rect")
-        .attr("x", function(d) {
-            return d[0] - 5;
+        .append("circle")
+        .attr("cx", function(d) {
+            return d[0];
         })
-        .attr("y", function(d) {
-            return d[1] - 5;
+        .attr("cy", function(d) {
+            return d[1];
         })
-        .attr("fill", "steelblue")
-        .attr("width", 10)
-        .attr("height", 10)
-        .on("mouseover", function (d) {
-            console.log(d[0]);
+        .attr("r", 8)
+        .attr("fill", "steelblue");
+    //绘制椭圆点，并设置响应
+    svg.selectAll("ellipse").remove();
+    svg.selectAll("ellipse")
+        .data(dataset.slice(-1))
+        .enter()
+        .append("ellipse")
+        .attr("cx", function(d) {
+            return d[0];
         })
-        .on("mouseout", function (d) {
-            console.log(d[1]);
-        });
+        .attr("cy", function(d) {
+            return d[1];
+        })
+        .attr("rx", 12)
+        .attr("ry", 8)
+        .attr("fill", "red");
     //标注文本
     svg.selectAll("text").remove();
     svg.selectAll("text")
@@ -104,7 +112,7 @@ function draw_svg(dataset){
             }
             return y_par;
         })
-        .attr("stroke", "gray")
+        .attr("stroke", "green")
         .attr("stroke-dasharray", "8,4")
         .attr("stroke-width", 1);
     //连线-拓扑结构
@@ -130,8 +138,8 @@ function draw_svg(dataset){
             }
             return d[1][1];
         })
-        .attr("stroke", "black")
-        .attr("stroke-width", 2);
+        .attr("stroke", "red")
+        .attr("stroke-width", 1);
 }       //SVG绘图
 
 function animloop(){

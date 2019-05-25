@@ -3,7 +3,7 @@
  */
 
 var getParamsInTable = {
-    Net_Structure: ["LoRa", "ZigBee", "RFID", "UWB"],       //预定义网络制式
+    Net_Structure: ["LoRa", "ZigBee", "UWB", "RFID"],       //预定义网络制式
     ZigBee_Terminal_ID: "BB01",     //预定义ZigBee终端ID
     ZigBee_Father_ID: null,       //ZigBee终端的父节点ID
     timeDisplay: function(){
@@ -58,7 +58,7 @@ var getParamsInTable = {
             "TIME" + "</th></tr>"
         );
         let ZigBee_table_tbody = $("#ZigBee_table tbody");
-        dataset.push([400, 300, "ZigBee-" + "解调器", 0]);
+        dataset.push([x_zigbee, y_zigbee, "ZigBee-" + "解调器", 0]);
         //提取ZigBee拓扑信息
         for(let topo_ZigBee = 0;topo_ZigBee < obj.zigbeeTopo.length;topo_ZigBee ++){
             let ZigBee_Topo_son = obj.zigbeeTopo[topo_ZigBee][0];
@@ -74,7 +74,7 @@ var getParamsInTable = {
         for(let i = 0;i < topo_data.length;i++){
             for(let j = 0;j < topo_data[0].length;j++){
                 if(topo_data[i][j] === "0000"){
-                    topo_data[i][j] = [400, 300];
+                    topo_data[i][j] = [x_zigbee, y_zigbee];
                 }
             }
         }
@@ -100,8 +100,32 @@ var getParamsInTable = {
                 }
             }
         }
+        //LoRa表头
+        $("#UWB_table thead").empty().append(
+            "<tr><th>" +
+            "ID" + "</th><th>" +
+            "x" + "</th><th>" +
+            "y" + "</th><th>" +
+            "TIME" + "</th></tr>"
+        );
+        //右侧显示ZigBee实时参数
+        $("#UWB_table tbody").empty().append(
+            "<tr><td>" +
+            obj.uwb[0].id + "</td><td>" +
+            obj.uwb[0].x + "</td><td>" +
+            obj.uwb[0].y + "</td><td>" +
+            obj.uwb[0].time + "</td></tr>"
+        );
         //补录终端位置
         dataset.push([x_par, y_par, "终端", 0]);
+        //y轴旋转，(0, 0)从左上角转移到左下角
+        for(let i = 0;i < dataset.length;i ++){
+            dataset[i][1] = h - dataset[i][1];
+        }
+        for(let i = 0;i < topo_data.length;i ++){
+            topo_data[i][0][1] = h - topo_data[i][0][1];
+            topo_data[i][1][1] = h - topo_data[i][1][1];
+        }
     },      //第一次处理数据
 };
 

@@ -49,7 +49,17 @@
         <button type="button" class="btn btn-primary" id="action_start">开始</button>
     </div>
     <div class="panel panel-default">
-        <div class="panel-body" id="draw"></div>
+        <div class="panel-body" id="draw">
+            <svg>
+                <defs>
+                    <pattern id="image" x="0" y="0" patternUnits="userSpaceOnUse" width="800" height="450">
+                        <image href="image/layout.jpg" x="0" y="0" width="800" height="450"></image>
+                    </pattern>
+                </defs>
+                <!--<circle id='top' cx="500" cy="250" r="500" fill="url(#image)"/>-->
+                <rect x="0" y="0" width="800" height="450" fill="url(#image)"/>
+            </svg>
+        </div>
     </div>
 </div>
 <div class="block_right" id="state_tables">
