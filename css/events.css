@@ -37,17 +37,13 @@ body {
     font-size: 18px;
 }
 .panel {
-    height: 512px;
+    height: 490px;
     width: 100%;
-    margin-top: 10px;
+    margin-top: 8px;
     overflow: auto;
 }
 .panel-body {
     width: 100%;
     overflow: auto;
 }
-.Chart_container {
-    position: relative;
-    height: 256px;
-    width: 100%;
-}
+

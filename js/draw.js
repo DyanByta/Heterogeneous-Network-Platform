@@ -3,8 +3,8 @@
  */
 
 var svg_container = $(".panel");        //取svg容器地址
-var w = svg_container.width() - 40;     //svg宽
-var h = svg_container.height() - 40;    //svg高
+var w = svg_container.width() - 36;     //svg宽
+var h = svg_container.height() - 36;    //svg高
 var x_par = 100;    //坐标初始位置_x
 var y_par = 100;    //坐标初始位置_y
 var x_zigbee = 400;    //zigbee解调器位置_x
@@ -20,18 +20,32 @@ var topo_data = [
 
 var globalID = null;    //记录刷新渲染的进程ID
 globalID = requestAnimationFrame(animloop);
+//设置开始或暂停渲染
 $(document).ready(function () {
     $("#action_start").on("click", function () {
         if(!globalID){
             globalID = requestAnimationFrame(animloop);
+            document.getElementById("action_start").innerHTML = "结束";
         }
-    });
-    $("#action_end").on("click", function () {
-        if(globalID){
+        else{
             cancelAnimationFrame(globalID);
             globalID = null;
+            document.getElementById("action_start").innerHTML = "开始";
         }
     });
+});
+
+//初始化SVG图的背景图片及方框大小
+$(document).ready(function () {
+    image_element = document.getElementById("image");
+    image_element.style.height = h;
+    image_element.style.width = w;
+    image_container_element = document.getElementById("image_container");
+    image_container_element.style.height = h;
+    image_container_element.style.width = w;
+    image_blank_element = document.getElementById("image_blank");
+    image_blank_element.style.height = h;
+    image_blank_element.style.width = w;
 });
 
 //创建SVG
